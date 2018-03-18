@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 const (
 	one = iota
 	zero
@@ -13,13 +11,10 @@ func intersect(o1, d1, o2, d2 *vec2) (float64, float64, int) {
 	o := sub(o2, o1)
 	nd2 := neg(d2)
 
-	det := cross(d1, nd2)
-
-	fmt.Printf("o: %v\n", o)
-	fmt.Printf("det: %v\n", det)
+	det := cross(d1, &nd2)
 
 	if det == 0 {
-		if cross(o, d1) == 0 {
+		if cross(&o, d1) == 0 {
 			return 0, 0, inf
 		}
 		return 0, 0, zero
