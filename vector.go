@@ -2,32 +2,63 @@ package main
 
 import "math"
 
-// Vector2 is a 2d vector
-type Vector2 struct {
+type vec2 struct {
 	x, y float64
 }
 
-// NewVec2RT makes a new vec2 from the polar coordinates (r,t)
-func NewVec2RT(r, t float64) Vector2 {
-	return Vector2{math.Cos(t) * r, math.Sin(t) * r}
+// NewRT makes a polar vec2
+func newRT(r, t float64) *vec2 {
+	return &vec2{r * math.Cos(t), r * math.Sin(t)}
 }
 
-// Sum returns a fresh vector sum
-func Sum(v1, v2 *Vector2) *Vector2 {
-	return &Vector2{v1.x + v2.x, v1.y + v2.y}
+func sub(v1, v2 *vec2) *vec2 {
+	return &vec2{v1.x - v2.x, v1.y - v2.y}
 }
 
-// Minus returns a fresh vector difference
-func Minus(v1, v2 *Vector2) *Vector2 {
-	return &Vector2{v1.x - v2.x, v1.y - v2.y}
+func neg(v *vec2) *vec2 {
+	return &vec2{-v.x, -v.y}
 }
 
-// Scale returns a freshly scaled vector
-func Scale(v1 *Vector2, a float64) *Vector2 {
-	return &Vector2{v1.x * a, v1.y * a}
+// Methods
+
+func (v *vec2) set(v2 *vec2) *vec2 {
+	v.x = v2.x
+	v.y = v2.y
+	return v
 }
 
-// Mag returns the magnitude of the vector
-func Mag(v *Vector2) float64 {
-	return math.Sqrt(math.Pow(v.x, 2) + math.Pow(v.y, 2))
+func (v *vec2) add(v2 *vec2) *vec2 {
+	v.x += v2.x
+	v.y += v2.y
+	return v
+}
+
+func (v *vec2) sub(v2 *vec2) *vec2 {
+	v.x -= v2.x
+	v.y -= v2.y
+	return v
+}
+
+func (v *vec2) times(a float64) *vec2 {
+	v.x *= a
+	v.y *= a
+	return v
+}
+
+func (v *vec2) div(a float64) *vec2 {
+	v.x /= a
+	v.y /= a
+	return v
+}
+
+func mag(v *vec2) float64 {
+	return math.Pow(v.x, 2) + math.Pow(v.y, 2)
+}
+
+func dot(v1, v2 *vec2) float64 {
+	return v1.x*v2.x + v1.y*v2.y
+}
+
+func cross(v1, v2 *vec2) float64 {
+	return v1.x*v2.y - v2.x*v1.y
 }
